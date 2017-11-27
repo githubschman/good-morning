@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { checkPassword } from './store'
+import { checkPassword, fetchInfo } from './store'
 
 import './App.css';
 
@@ -13,6 +13,12 @@ class App extends Component {
   super()
     this.state = {
       password: ''
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if(newProps.loggedIn !== this.props.loggedIn && newProps.loggedIn){
+      this.props.init()
     }
   }
 
@@ -30,7 +36,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.props.loggedIn ? <h1> you are logged in </h1> : 
+        {this.props.loggedIn ? 
+          <div>
+            <h1>Good Morning, Sarah!</h1>
+          </div> : 
         <div>
 
           <form onSubmit={this.handleSubmit}>
@@ -61,6 +70,9 @@ const dispatchToProps = function (dispatch) {
   return {
       inputPassword(password) {
           dispatch(checkPassword(password))
+      },
+      init(){
+        dispatch(fetchInfo())
       }
   }
 };
