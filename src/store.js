@@ -34,6 +34,7 @@ var myInit = { method: 'GET',
                cache: 'default' };
 
 export const fetchInfo = () => dispatch => {
+    console.log('fetching weather')
     fetch('https://api.darksky.net/forecast/' + process.env.REACT_APP_WEATHER_KEY + '/40.7128,-74.0060', myInit)
         .then(res => res.json())
         .then(res => {
