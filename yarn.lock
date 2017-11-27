@@ -2500,6 +2500,10 @@ fbjs@^0.8.1, fbjs@^0.8.16:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
+fetch-cors-mixins@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/fetch-cors-mixins/-/fetch-cors-mixins-0.0.5.tgz#8551356b515308c63a2d4e3bf3daa7d59b59174a"
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"

@@ -1,13 +1,17 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+const fetchMixins = require('fetch-cors-mixins');
+
 
 export const checkPassword = password => ({type: 'LOG_IN', password})
+export const getGif = url => ({type: 'GM_GIF', url})
 
 let initialState = {
     passwordText: '',
     isRaining: false,
     temp: 0,
-    loggedIn: false
+    loggedIn: false,
+    gif: ''
 }
 
 const reducer = (state = initialState, action) => {
@@ -20,6 +24,9 @@ const reducer = (state = initialState, action) => {
                 return Object.assign({}, state, {passwordText: 'wrong password!'})
             }
         }
+        case 'GM_GIF' : {
+            return Object.assign({}, state, {gif: action.url})
+        }
 		default: {
 			return state
 		}
@@ -27,17 +34,29 @@ const reducer = (state = initialState, action) => {
 }
 
 export const fetchInfo = () => dispatch => {
-    console.log('fetching weather')
-    fetch('https://api.darksky.net/forecast/' + process.env.REACT_APP_WEATHER_KEY + '/40.7128,-74.0060')
+    
+    // fetches good morning gif
+    fetch('http://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
+        .then(res => res.json())
+        .then(res => res.data[Math.floor(Math.random() * res.data.length)])
+        .then(res => res.id)
+        .then(url => dispatch(getGif(url)))
+        .catch(console.error)
+
+    fetch(`http://api.wunderground.com/api/${process.env.REACT_APP_WEATHER_KEY}/conditions/q/CA/San_Francisco.json`, fetchMixins)
         .then(res => res.json())
         .then(res => {
-            let weekly = [[res.daily.data[0].icon, Math.floor(res.daily.data[0].temperatureMax)], [res.daily.data[1].icon, Math.floor(res.daily.data[1].temperatureMax)], [res.daily.data[2].icon, Math.floor(res.daily.data[2].temperatureMax)]]
-            console.log(weekly)
+console.log(res)
         })
         .catch(console.error)
+
+
 }
 
 
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 export default store;
+
+
+

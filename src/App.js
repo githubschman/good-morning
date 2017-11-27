@@ -39,6 +39,7 @@ class App extends Component {
         {this.props.loggedIn ? 
           <div>
             <h1>Good Morning, Sarah!</h1>
+            <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>          
           </div> : 
         <div>
 
@@ -62,14 +63,15 @@ class App extends Component {
 const stateToProps = function (state) {
   return {
       passwordText: state.passwordText,
-      loggedIn: state.loggedIn
+      loggedIn: state.loggedIn,
+      gif: state.gif
   }
 };
 
 const dispatchToProps = function (dispatch) {
   return {
       inputPassword(password) {
-          dispatch(checkPassword(password))
+        dispatch(checkPassword(password))
       },
       init(){
         dispatch(fetchInfo())
