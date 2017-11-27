@@ -26,16 +26,9 @@ const reducer = (state = initialState, action) => {
 	}
 }
 
-var myHeaders = new Headers();
-
-var myInit = { method: 'GET',
-               headers: myHeaders,
-               mode: 'no-cors',
-               cache: 'default' };
-
 export const fetchInfo = () => dispatch => {
     console.log('fetching weather')
-    fetch('https://api.darksky.net/forecast/' + process.env.REACT_APP_WEATHER_KEY + '/40.7128,-74.0060', myInit)
+    fetch('https://api.darksky.net/forecast/' + process.env.REACT_APP_WEATHER_KEY + '/40.7128,-74.0060')
         .then(res => res.json())
         .then(res => {
             let weekly = [[res.daily.data[0].icon, Math.floor(res.daily.data[0].temperatureMax)], [res.daily.data[1].icon, Math.floor(res.daily.data[1].temperatureMax)], [res.daily.data[2].icon, Math.floor(res.daily.data[2].temperatureMax)]]
