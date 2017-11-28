@@ -67,7 +67,7 @@ export const fetchInfo = () => dispatch => {
 
     // fetching directions 
     var proxy = 'https://cors-anywhere.herokuapp.com/'
-    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=60+West+129th+street+NewYork+NY&destination=amplify+brooklyn+NY&key=${process.env.REACT_APP_MAP_KEY}`
+    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=1338+willoughby+ave+brooklyn+NY&destination=NYU&key=${process.env.REACT_APP_MAP_KEY}`
     fetch(proxy + target)
         .then(res => res.json())
         .then(data => {

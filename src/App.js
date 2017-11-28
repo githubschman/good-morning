@@ -67,7 +67,7 @@ class App extends Component {
       <div className="App">
         {this.props.loggedIn && this.state.workday ? // add am check
             <div>
-              <h1>{this.state.greeting}, Sarah!</h1>
+              <h1>{this.state.greeting}, Jackie!</h1>
               {this.state.hideGif ? <RaisedButton onClick={() => this.setState({hideGif: false})} label="gif me!" primary={true} style={{margin: 12}}/> :
               <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="300" frameBorder="0" allowFullScreen></iframe>           
               }
@@ -98,7 +98,7 @@ class App extends Component {
         </div>
         }
 
-        {this.props.loggedIn && !this.state.workday ? <div><h1>Have a great weekend, Sarah</h1></div> : null}
+        {this.props.loggedIn && !this.state.workday ? <div><h1>Have a great weekend, Jackie!</h1></div> : null}
       </div>
     );
   }
