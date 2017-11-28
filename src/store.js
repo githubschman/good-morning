@@ -56,7 +56,7 @@ export const fetchInfo = () => dispatch => {
         .catch(console.error)
 
     // fetching weather
-    fetch(`https://api.openweathermap.org/data/2.5/weather?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?id=5095611&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
         .then(res => res.json())
         .then(data => {
             let weatherInfo = {currentTemp: getDegrees(data.main.temp), isRaining: data.rain ? true : false, isCold: checkCold(data)}
@@ -67,15 +67,11 @@ export const fetchInfo = () => dispatch => {
 
     // fetching directions 
     var proxy = 'https://cors-anywhere.herokuapp.com/'
-    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=60+West+129th+street+NewYork+NY&destination=amplify+brooklyn+NY&key=${process.env.REACT_APP_MAP_KEY}`
+    var target = `https://maps.googleapis.com/maps/api/directions/json?origin=227+hardenburgh+ave+demarest+NJ&destination=1+Normal+Avenue+upper+Montclair+NJ&key=${process.env.REACT_APP_MAP_KEY}`
     fetch(proxy + target)
         .then(res => res.json())
         .then(data => {
-            let details = data.routes[0].legs[0].steps[1].transit_details;
-            let stationName = details.arrival_stop.name.split(' Subway Station')[0]
-            let trainIcon = details.line.icon.split('//')[1]
-
-            let info = {icon: trainIcon, station: stationName, duration: data.routes[0].legs[0].duration.text}
+            let info = {duration: data.routes[0].legs[0].duration.text}
             dispatch(transitInfo(info))
         })
         .catch(console.error)

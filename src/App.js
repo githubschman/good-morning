@@ -7,7 +7,6 @@ import { checkPassword, fetchInfo } from './store'
 import moment from 'moment';
 import './App.css';
 import sun from './sun.png'
-console.log(sun)
 
 class App extends Component {
 
@@ -29,7 +28,7 @@ class App extends Component {
     let greetingArray = ['Bom Dia', 'Buenos días', 'Guten Morgen', 'God morgen', 'Bonjour', 'Joh-eun achim'];
     let num = Math.floor(Math.random() * greetingArray.length)
 
-    this.setState({greeting: greetingArray[num], am: amCheck, workday: day === 'Saturday' || day === 'Sunday' ? false : true})
+    this.setState({greeting: greetingArray[num], am: amCheck, workday: day !== 'Monday' || day !== 'Thursday' ? false : true})
   }
 
   componentWillReceiveProps(newProps) {
@@ -67,15 +66,14 @@ class App extends Component {
       <div className="App">
         {this.props.loggedIn && this.state.workday ? // add am check
             <div>
-              <h1>{this.state.greeting}, Sarah!</h1>
+              <h1>{this.state.greeting}, Janis!</h1>
               {this.state.hideGif ? <RaisedButton onClick={() => this.setState({hideGif: false})} label="gif me!" primary={true} style={{margin: 12}}/> :
               <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="300" frameBorder="0" allowFullScreen></iframe>           
               }
               <h2>It is {this.props.temp} degrees out.</h2>
               <h2>You will {jacketText} need a jacket today.</h2>
               {this.props.needUmbrella ? <h2> Pack your umbrella! </h2> : null}
-              <h2>Take the <img src={`http://${transit.icon}`} /> to {transit.station}.</h2>
-              <h2>Transit will take {transit.duration}.</h2>
+              <h2>Your travel time will be {transit.duration}.</h2>
             </div> 
 
           : 
@@ -98,7 +96,7 @@ class App extends Component {
         </div>
         }
 
-        {this.props.loggedIn && !this.state.workday ? <div><h1>Have a great weekend, Sarah</h1></div> : null}
+        {this.props.loggedIn && !this.state.workday ? <div><h1>You don't have work today, Janis</h1></div> : null}
       </div>
     );
   }
@@ -133,7 +131,7 @@ export default connect(stateToProps, dispatchToProps)(App);
 /*
 {this.state.am ? 
   <div>
-    <h1>Have a great day, Sarah!</h1>
+    <h1>Have a great day, Janis!</h1>
   </div>
   :
   null
