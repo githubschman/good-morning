@@ -64,7 +64,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.props.loggedIn && this.state.workday ? // add am check
+        {this.props.loggedIn ? // add am check
             <div>
               <h1>{this.state.greeting}, Janis!</h1>
               {this.state.hideGif ? <RaisedButton onClick={() => this.setState({hideGif: false})} label="gif me!" primary={true} style={{margin: 12}}/> :
@@ -96,7 +96,6 @@ class App extends Component {
         </div>
         }
 
-        {this.props.loggedIn && !this.state.workday ? <div><h1>You don't have work today, Janis</h1></div> : null}
       </div>
     );
   }
