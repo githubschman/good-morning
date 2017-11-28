@@ -34,15 +34,29 @@ class App extends Component {
   }
 
   render() {
+    let jacketText;
+    if(this.props.jacketIndex > 7){
+      jacketText = 'definitely'
+    }else if (this.props.jacketIndex < 7 && this.props.jacketIndex > 4){
+      jacketText = 'probably'
+    }else{
+      jacketText = 'not'
+    }
+
     return (
       <div className="App">
         {this.props.loggedIn ? 
           <div>
             <h1>Good Morning, Sarah!</h1>
             <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>          
-          </div> : 
-        <div>
-
+            <h1>It is {this.props.temp} degrees out.</h1>
+            <h1>You will {jacketText} need a jacket today.</h1>
+            {this.props.needUmbrella ? <h1> pack your umbrella! </h1> : null}
+          </div> 
+          
+          : 
+      
+          <div>
           <form onSubmit={this.handleSubmit}>
             <TextField
                 hintText="enter your password"
@@ -64,7 +78,10 @@ const stateToProps = function (state) {
   return {
       passwordText: state.passwordText,
       loggedIn: state.loggedIn,
-      gif: state.gif
+      gif: state.gif,
+      needUmbrella: state.needUmbrella,
+      jacketIndex: state.jacketIndex,
+      temp: state.temp,
   }
 };
 
