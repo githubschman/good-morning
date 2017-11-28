@@ -48,7 +48,7 @@ const reducer = (state = initialState, action) => {
 export const fetchInfo = () => dispatch => {
     
     // fetching good morning gif
-    fetch('http://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
+    fetch('https://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
         .then(res => res.json())
         .then(res => res.data[Math.floor(Math.random() * res.data.length)])
         .then(res => res.id)
@@ -56,7 +56,7 @@ export const fetchInfo = () => dispatch => {
         .catch(console.error)
 
     // fetching weather
-    fetch(`http://api.openweathermap.org/data/2.5/weather?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
         .then(res => res.json())
         .then(data => {
             let weatherInfo = {currentTemp: getDegrees(data.main.temp), isRaining: data.rain ? true : false, isCold: checkCold(data)}
@@ -67,7 +67,7 @@ export const fetchInfo = () => dispatch => {
 
     // fetching directions 
     var proxy = 'https://cors-anywhere.herokuapp.com/'
-    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=60+West+129th+street+NewYork+NY&destination=amplify+brooklyn+NY&key=AIzaSyCfxbwWDsWIU4j1fzAt7DUmwYOJAMPvCzA`
+    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=60+West+129th+street+NewYork+NY&destination=amplify+brooklyn+NY&key=${process.env.REACT_APP_MAP_KEY}`
     fetch(proxy + target)
         .then(res => res.json())
         .then(data => {
