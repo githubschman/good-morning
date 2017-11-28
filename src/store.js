@@ -94,7 +94,6 @@ const checkCold = (data) => {
     // is the temperature low?
     if(temp < 45) coldScore += 10
     else if(temp > 45 && temp < 60) coldScore += 5
-
     return coldScore
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { checkPassword, fetchInfo } from './store'
+import moment from 'moment';
 
 import './App.css';
 
@@ -12,8 +13,17 @@ class App extends Component {
 
   super()
     this.state = {
-      password: ''
+      password: '',
+      hideGif: true,
+      workday: true,
+      am: true
     }
+  }
+  
+  componentDidMount(){
+    let day = moment().format('dddd');
+    let amCheck = moment().format('a') === 'am'
+    this.setState({am: amCheck, workday: day === 'Saturday' || day === 'Sunday' ? false : true})
   }
 
   componentWillReceiveProps(newProps) {
@@ -33,8 +43,9 @@ class App extends Component {
     this.setState({password: ''});
   }
 
+
   render() {
-    
+
     let jacketText;
     if(this.props.jacketIndex > 7){
       jacketText = 'definitely'
@@ -48,17 +59,19 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.props.loggedIn ? 
-          <div>
-            <h1>Good Morning, Sarah!</h1>
-            <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>          
-            <h1>It is {this.props.temp} degrees out.</h1>
-            <h1>You will {jacketText} need a jacket today.</h1>
-            {this.props.needUmbrella ? <h1> Pack your umbrella! </h1> : null}
-            <h1>Take the <img src={`http://${transit.icon}`} /> to {transit.station}.</h1>
-            <h1>Transit will take {transit.duration}.</h1>
-          </div> 
-          
+        {this.props.loggedIn && this.state.workday ? // add am check
+            <div>
+              <h1>Good Morning, Sarah!</h1>
+              {this.state.hideGif ? <RaisedButton onClick={() => this.setState({hideGif: false})} label="gif me!" primary={true} style={{margin: 12}}/> :
+              <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>           
+              }
+              <h2>It is {this.props.temp} degrees out.</h2>
+              <h2>You will {jacketText} need a jacket today.</h2>
+              {this.props.needUmbrella ? <h2> Pack your umbrella! </h2> : null}
+              <h2>Take the <img src={`http://${transit.icon}`} /> to {transit.station}.</h2>
+              <h2>Transit will take {transit.duration}.</h2>
+            </div> 
+
           : 
       
           <div>
@@ -74,6 +87,8 @@ class App extends Component {
           <p> {this.props.passwordText} </p>
         </div>
         }
+
+        {this.props.loggedIn && !this.state.workday ? <div><h1>Have a great weekend, Sarah</h1></div> : null}
       </div>
     );
   }
@@ -103,3 +118,14 @@ const dispatchToProps = function (dispatch) {
 };
 
 export default connect(stateToProps, dispatchToProps)(App);
+
+
+/*
+{this.state.am ? 
+  <div>
+    <h1>Have a great day, Sarah!</h1>
+  </div>
+  :
+  null
+}
+*/

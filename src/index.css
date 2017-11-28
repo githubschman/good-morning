@@ -1,5 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  color: #fff;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  background: url('./backgrounds/2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+input {
+  color:#fff;
+}
+
+iframe{
+  text-align: center;
+}
+
+h2{
+  font-weight: 400;
 }
