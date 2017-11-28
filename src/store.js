@@ -36,7 +36,7 @@ const reducer = (state = initialState, action) => {
 export const fetchInfo = () => dispatch => {
     
     // fetches good morning gif
-    fetch('http://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
+    fetch('https://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
         .then(res => res.json())
         .then(res => res.data[Math.floor(Math.random() * res.data.length)])
         .then(res => res.id)
