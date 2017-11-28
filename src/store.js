@@ -43,7 +43,7 @@ export const fetchInfo = () => dispatch => {
         .then(url => dispatch(getGif(url)))
         .catch(console.error)
 
-    fetch(`https://api.wunderground.com/api/${process.env.REACT_APP_WEATHER_KEY}/conditions/q/CA/San_Francisco.json`, fetchMixins)
+    fetch(`https://good-morning-sarah.herokuapp.com/https://api.wunderground.com/api/${process.env.REACT_APP_WEATHER_KEY}/conditions/q/CA/San_Francisco.json`, fetchMixins)
         .then(res => res.json())
         .then(res => {
 console.log(res)
