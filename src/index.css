@@ -9,10 +9,12 @@ body {
   background: url('./backgrounds/2.png');
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: #2f93c4;
 }
 
-input {
-  color:#fff;
+.logo{
+  text-align: center;
+  width: 200px;
 }
 
 iframe{
@@ -21,4 +23,5 @@ iframe{
 
 h2{
   font-weight: 400;
+  size: 14px;
 }

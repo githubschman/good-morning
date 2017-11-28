@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { blue50 } from 'material-ui/styles/colors';
 import { checkPassword, fetchInfo } from './store'
 import moment from 'moment';
-
 import './App.css';
+import sun from './sun.png'
+console.log(sun)
 
 class App extends Component {
 
@@ -16,14 +18,18 @@ class App extends Component {
       password: '',
       hideGif: true,
       workday: true,
-      am: true
+      am: true,
+      greeting: ''
     }
   }
   
   componentDidMount(){
     let day = moment().format('dddd');
-    let amCheck = moment().format('a') === 'am'
-    this.setState({am: amCheck, workday: day === 'Saturday' || day === 'Sunday' ? false : true})
+    let amCheck = moment().format('a') === 'am';
+    let greetingArray = ['Bom Dia', 'Buenos días', 'Guten Morgen', 'God morgen', 'Bonjour', 'Joh-eun achim'];
+    let num = Math.floor(Math.random() * greetingArray.length)
+
+    this.setState({greeting: greetingArray[num], am: amCheck, workday: day === 'Saturday' || day === 'Sunday' ? false : true})
   }
 
   componentWillReceiveProps(newProps) {
@@ -61,9 +67,9 @@ class App extends Component {
       <div className="App">
         {this.props.loggedIn && this.state.workday ? // add am check
             <div>
-              <h1>Good Morning, Sarah!</h1>
+              <h1>{this.state.greeting}, Sarah!</h1>
               {this.state.hideGif ? <RaisedButton onClick={() => this.setState({hideGif: false})} label="gif me!" primary={true} style={{margin: 12}}/> :
-              <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>           
+              <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="300" frameBorder="0" allowFullScreen></iframe>           
               }
               <h2>It is {this.props.temp} degrees out.</h2>
               <h2>You will {jacketText} need a jacket today.</h2>
@@ -75,14 +81,18 @@ class App extends Component {
           : 
       
           <div>
+          <h1>Top of the mornin'!</h1>
+          <img className={'logo'} src={sun} />
           <form onSubmit={this.handleSubmit}>
             <TextField
                 hintText="enter your password"
+                hintStyle={{color: blue50}}
                 type="password"
                 onChange={this.handleInput}
                 value={this.state.password}
+                underlineFocusStyle={{borderColor: blue50}}
             />
-            <RaisedButton type="submit" label="enter" primary={true} style={{margin: 12}}/>          
+            <RaisedButton type="submit" label="enter" style={{margin: 12}}/>          
           </form>
           <p> {this.props.passwordText} </p>
         </div>
