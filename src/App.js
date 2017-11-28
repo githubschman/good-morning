@@ -34,6 +34,7 @@ class App extends Component {
   }
 
   render() {
+    
     let jacketText;
     if(this.props.jacketIndex > 7){
       jacketText = 'definitely'
@@ -43,6 +44,8 @@ class App extends Component {
       jacketText = 'not'
     }
 
+    let transit = this.props.travel
+
     return (
       <div className="App">
         {this.props.loggedIn ? 
@@ -51,7 +54,9 @@ class App extends Component {
             <iframe title={'good morning gif'} src={`https://giphy.com/embed/${this.props.gif}`} width="480" height="270" frameBorder="0" allowFullScreen></iframe>          
             <h1>It is {this.props.temp} degrees out.</h1>
             <h1>You will {jacketText} need a jacket today.</h1>
-            {this.props.needUmbrella ? <h1> pack your umbrella! </h1> : null}
+            {this.props.needUmbrella ? <h1> Pack your umbrella! </h1> : null}
+            <h1>Take the <img src={`http://${transit.icon}`} /> to {transit.station}.</h1>
+            <h1>Transit will take {transit.duration}.</h1>
           </div> 
           
           : 
@@ -82,6 +87,7 @@ const stateToProps = function (state) {
       needUmbrella: state.needUmbrella,
       jacketIndex: state.jacketIndex,
       temp: state.temp,
+      travel: state.travel
   }
 };
 
