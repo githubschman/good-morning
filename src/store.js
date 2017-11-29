@@ -92,8 +92,8 @@ const checkCold = (data) => {
     // is it raining
     if(data.rain) coldScore += 3
     // is the temperature low?
-    if(temp < 45) coldScore += 10
-    else if(temp > 45 && temp < 60) coldScore += 5
+    if(temp < 60) coldScore += 10
+    else if(temp > 60 && temp < 70) coldScore += 5
     return coldScore
 }
 
