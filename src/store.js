@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 export const checkPassword = password => ({type: 'LOG_IN', password})
 export const getGif = url => ({type: 'GM_GIF', url})
 export const weatherInfo = info => ({type: 'WEATHER_INFO', info})
+export const precipInfo = bool => ({type: 'PRECIPITATION', bool})
 export const transitInfo = info => ({type: 'TRANSIT_INFO', info})
 
 let initialState = {
@@ -31,8 +32,10 @@ const reducer = (state = initialState, action) => {
             return Object.assign({}, state, {gif: action.url})
         }
         case 'WEATHER_INFO' : {
-            let needUmbrella = action.info.isRaining ? true : false;
-            return Object.assign({}, state, {jacketIndex: action.info.isCold, needUmbrella: needUmbrella, temp: action.info.currentTemp})
+            return Object.assign({}, state, {jacketIndex: action.info.isCold, temp: action.info.currentTemp})
+        }
+        case 'PRECIPITATION' : {
+            return Object.assign({}, state, {needUmbrella: action.bool})
         }
         case 'TRANSIT_INFO' : {
             return Object.assign({}, state, {travel: action.info})
@@ -45,17 +48,22 @@ const reducer = (state = initialState, action) => {
 
 
 
-export const fetchInfo = () => dispatch => {
-    
+export const fetchInfo = (a) => dispatch => {
+
+    // set vars
+    let timeOfDay = a ? 'morning' : 'goodnight'
+    let start = a ? '60+West+129th+street+NewYork+NY' : 'amplify+brooklyn+NY'
+    let end = a ? 'amplify+brooklyn+NY' : '60+West+129th+street+NewYork+NY'
+
     // fetching good morning gif
-    fetch('https://api.giphy.com/v1/gifs/search?q=morning&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg')
+    fetch(`https://api.giphy.com/v1/gifs/search?q=${timeOfDay}&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg`)
         .then(res => res.json())
         .then(res => res.data[Math.floor(Math.random() * res.data.length)])
         .then(res => res.id)
         .then(url => dispatch(getGif(url)))
         .catch(console.error)
 
-    // fetching weather
+    // fetching current weather
     fetch(`https://api.openweathermap.org/data/2.5/weather?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
         .then(res => res.json())
         .then(data => {
@@ -65,9 +73,16 @@ export const fetchInfo = () => dispatch => {
         .then(data => dispatch(weatherInfo(data)))
         .catch(console.error)
 
+    // fetching precipitation forecase
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
+    .then(res => res.json())
+    .then(data => data.list.slice(0,5).filter(el => el.snow && el.snow['3h'] > .5 || el.rain && el.rain['3h'] > .5))
+    .then(arr => dispatch(precipInfo(arr.length > 0)))
+    .catch(console.error)
+        
     // fetching directions 
-    var proxy = 'https://cors-anywhere.herokuapp.com/'
-    var target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=60+West+129th+street+NewYork+NY&destination=amplify+brooklyn+NY&key=${process.env.REACT_APP_MAP_KEY}`
+    let proxy = 'https://cors-anywhere.herokuapp.com/'
+    let target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=${start}&destination=${end}&key=${process.env.REACT_APP_MAP_KEY}`
     fetch(proxy + target)
         .then(res => res.json())
         .then(data => {
