@@ -123,8 +123,8 @@ const dispatchToProps = function (dispatch) {
       inputPassword(password) {
         dispatch(checkPassword(password))
       },
-      init(){
-        dispatch(fetchInfo())
+      init(a){
+        dispatch(fetchInfo(a))
       }
   }
 };

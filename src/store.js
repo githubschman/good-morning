@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
 
 
 export const fetchInfo = (a) => dispatch => {
-
+    console.log(a)
     // set vars
     let timeOfDay = a ? 'morning' : 'goodnight'
     let start = a ? '60+West+129th+street+NewYork+NY' : 'amplify+brooklyn+NY'
