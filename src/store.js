@@ -49,7 +49,7 @@ const reducer = (state = initialState, action) => {
 
 
 export const fetchInfo = (a) => dispatch => {
-    console.log(a)
+
     // set vars
     let timeOfDay = a ? 'morning' : 'goodnight'
     let start = a ? '60+West+129th+street+NewYork+NY' : 'amplify+brooklyn+NY'
@@ -75,22 +75,27 @@ export const fetchInfo = (a) => dispatch => {
 
     // fetching precipitation forecase
     fetch(`https://api.openweathermap.org/data/2.5/forecast?id=5128581&APPID=${process.env.REACT_APP_WEATHER_KEY}`)
-    .then(res => res.json())
-    .then(data => data.list.slice(0,5).filter(el => el.snow && el.snow['3h'] > .5 || el.rain && el.rain['3h'] > .5))
-    .then(arr => dispatch(precipInfo(arr.length > 0)))
-    .catch(console.error)
+        .then(res => res.json())
+        .then(data => data.list.slice(0,5).filter(el => el.snow && el.snow['3h'] > .5 || el.rain && el.rain['3h'] > .5))
+        .then(arr => dispatch(precipInfo(arr.length > 0)))
+        .catch(console.error)
         
     // fetching directions 
     let proxy = 'https://cors-anywhere.herokuapp.com/'
-    let target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&origin=${start}&destination=${end}&key=${process.env.REACT_APP_MAP_KEY}`
+    let target = `https://maps.googleapis.com/maps/api/directions/json?&mode=transit&transit_routing_preference=fewer_transfers&origin=${start}&destination=${end}&key=${process.env.REACT_APP_MAP_KEY}`
     fetch(proxy + target)
         .then(res => res.json())
         .then(data => {
-            let details = data.routes[0].legs[0].steps[1].transit_details;
-            let stationName = details.arrival_stop.name.split(' Subway Station')[0]
-            let trainIcon = details.line.icon.split('//')[1]
+            let stations = [];
+            let icons = [];
+            data.routes[0].legs[0].steps.forEach((step,i) => {
+                if(i%2 > 0){
+                stations.push(step.transit_details.arrival_stop.name.split(' Subway Station')[0])
+                icons.push(step.transit_details.line.icon.split('//')[1])
+                }
+            })
 
-            let info = {icon: trainIcon, station: stationName, duration: data.routes[0].legs[0].duration.text}
+            let info = {icon: icons, station: stations, duration: data.routes[0].legs[0].duration.text}
             dispatch(transitInfo(info))
         })
         .catch(console.error)

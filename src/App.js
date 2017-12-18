@@ -63,7 +63,6 @@ class App extends Component {
     }
 
     let transit = this.props.travel
-
     return (
       <div className="App">
         {this.props.loggedIn && this.state.workday ?
@@ -75,7 +74,7 @@ class App extends Component {
               <h2>It is {this.props.temp} degrees out.</h2>
               <h2>You will {jacketText} need a jacket today.</h2>
               {this.props.needUmbrella ? <h2> Pack your umbrella! ☔️ </h2> : null}
-              <h2>Take the <img src={`http://${transit.icon}`} /> to {transit.station}.</h2>
+              {transit.icon && transit.icon.map((icon, i) =>  <h2>Take the <img src={`http://${icon}`} /> to {transit.station[i]}. </h2>)}
               <h2>Transit will take {transit.duration}.</h2>
             </div> 
 
