@@ -52,8 +52,8 @@ export const fetchInfo = (a) => dispatch => {
 
     // set vars
     let timeOfDay = a ? 'morning' : 'goodnight'
-    let start = a ? '60+West+129th+street+NewYork+NY' : 'amplify+brooklyn+NY'
-    let end = a ? 'amplify+brooklyn+NY' : '60+West+129th+street+NewYork+NY'
+    let start = a ? '762+St+Marks+Avenue+Brooklyn+NY' : 'amplify+brooklyn+NY'
+    let end = a ? 'amplify+brooklyn+NY' : '762+St+Marks+Avenue+Brooklyn+NY'
 
     // fetching good morning gif
     fetch(`https://api.giphy.com/v1/gifs/search?q=${timeOfDay}&api_key=aA6ywK8HyQvrwnwEOxwBFcu9tPiSXvIg`)
